@@ -26,7 +26,9 @@ public class ScheduleServiceImpl implements ScheduleService {
             ScheduleResponse scheduleResponse = new ScheduleResponse();
 
 
-            List<Object[]> results = this.em.createNativeQuery("Select * from vp_schedule_reporting." + schedule_id_req, "scheduleMapping").getResultList();
+            List<Object[]> yearSchedule = this.em.createNativeQuery("Select year from vp_temp_data.schedules_year where id_s =" + schedule_id_req).getResultList();
+
+            List<Object[]> results = this.em.createNativeQuery("Select * from vp_temp_data.tmp" + yearSchedule.get(0) + " where id_s = " + schedule_id_req, "scheduleMapping").getResultList();
 
             Optional<Object[]> result = results.stream().findFirst();
 
@@ -77,7 +79,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public List<ScheduleResponse> getScheduleByDepartureDate() {
 
+        return null;
+    }
 
+    @Override
+    public List<ScheduleResponse> getRecentSchedule() {
         List<ScheduleResponse> scheduleResponseList = new ArrayList<ScheduleResponse>();
 
         List<Schedule_query>Schedules_long_query = LongSchedulesDeparture();
@@ -87,7 +93,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             ScheduleResponse scheduleResponse = new ScheduleResponse();
 
             Schedule_query schedule_unique_id = Schedules_long_query.get(l);
-            List<Object[]> result = this.em.createNativeQuery("Select * from vp_schedule_reporting.departure_montly where id_s =" + schedule_unique_id.getId(), "scheduleMapping").getResultList();
+            List<Object[]> result = this.em.createNativeQuery("Select * from vp_temp_data.last15schedules where id_s =" + schedule_unique_id.getId(), "scheduleMapping").getResultList();
 
 
             Optional<Object[]> results = result.stream().findFirst();
@@ -155,7 +161,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     */
     public List<Schedule_query> LongSchedulesDeparture() {
-        return this.em.createNativeQuery("Select distinct id_s from vp_schedule_reporting.departure_montly", "scheduleQueryMapping").getResultList();
+        return this.em.createNativeQuery("Select distinct id_s from vp_temp_data.last15schedules", "scheduleQueryMapping").getResultList();
     };
 
 }

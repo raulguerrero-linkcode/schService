@@ -28,11 +28,11 @@ public class scheduleController {
 
     }
 
-    @GetMapping("/departure")
+    @GetMapping("/recentSchedules")
     public @ResponseBody List<ScheduleResponse> getScheduleArrivalLastMonth() {
         //List<ScheduleResponse> sqRes = new ArrayList<ScheduleResponse>();
         //sqRes.add();
-        return scheduleService.getScheduleByDepartureDate();
+        return scheduleService.getRecentSchedule();
     }
 
 

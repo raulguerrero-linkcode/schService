@@ -42,4 +42,12 @@ public interface ScheduleService {
     List<ScheduleResponse> getScheduleByDepartureDate();
 
 
+    /*
+        Get Schedules_id from last 30 days of creation
+
+     */
+    List<ScheduleResponse> getRecentSchedule();
+
+
+
 }
